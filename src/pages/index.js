@@ -6,7 +6,7 @@ export default function Home() {
       <Head>
         <title>Amazon 2.0</title>
       </Head>
-      Amazon 2.0
+      Amazon 2.0 Test Branch
     </div>
   );
 }
