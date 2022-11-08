@@ -1,28 +1,12 @@
-# Installation Steps
+# AMAZON 2.0 USING NEXTJS, NEXTAUTH, TAILWIND, REDUX, WEBHOOKS, FIRESTORE, STRIPE
 
 
 
-## Using npm
-
-Run commands
-
-1) ```npm install```
+## Redux 
+- we have store.js and basket there to implement the redux.
 
 
-2) ```npm run dev```
+### Extra Informtion
 
+- We have tailwindcs and redux already activated in this starter templete all that is require we will be going to add the features and functionalities inside of it!
 
-## Or using yarn
-
-Run commands 
-
-1) ```npm install --global yarn```
-
-2) ```yarn install```
-
-3) ```yarn run dev```
-
-
-### If you see the window below then you are set to build AMAZON 2.0!
-
-![Template Screenshot](TemplateScreenshot.jpg?raw=true "Template Screenshot")
