@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Header from "../components/Header";
 
 export default function Home() {
   return (
@@ -6,7 +7,12 @@ export default function Home() {
       <Head>
         <title>Amazon 2.0</title>
       </Head>
-      Amazon 2.0 Dev branch
+
+      <Header />
+      <main>
+        {/* Scrollable Banner */}
+        {/* Products */}
+      </main>
     </div>
   );
 }
