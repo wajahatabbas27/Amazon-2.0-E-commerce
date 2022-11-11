@@ -7,13 +7,13 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
-      colors: {
+      colors: {   
         amazon_blue: {
           light: "#232F3E",
           DEFAULT: "#131921",
         },
       },
-    },
+    }, 
   },
   variants: {
     extend: {},
