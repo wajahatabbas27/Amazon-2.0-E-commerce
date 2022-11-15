@@ -5,8 +5,16 @@ import {
   SearchIcon,
   ShoppingCartIcon,
 } from "@heroicons/react/outline";
+import { signIn, signOut, useSession } from "next-auth/react"; // This is what we will be using to handle signin functionality
+
+//===================================================================================================================================
+// Here inisde the header when we click the accounts & list we have to be redirected to the signIn page from different providers!
+//===================================================================================================================================
 
 const Header = () => {
+  // We will use the useSession here to get the data from the login user
+  const { data: session } = useSession();
+
   return (
     <header>
       {/*Top Nav*/}
@@ -32,8 +40,11 @@ const Header = () => {
         {/* Hero Icons Basket */}
         <div className='text-white flex items-center text-xs space-x-6 mx-6 whitespace-nowrap'>
           {/* name */}
-          <div className='link'>
-            <p>Hello Wajahat A.</p>
+          <div
+            onClick={!session ? signIn : signOut}
+            className='link cursor-pointer'
+          >
+            <p>{session ? `Hello, ${session.user.name}` : "Sign In"}</p>
             <p className='font-extrabold md:text-sm'>Account & Lists</p>
           </div>
           {/* order */}
