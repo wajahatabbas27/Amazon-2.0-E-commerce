@@ -1,5 +1,7 @@
 # AMAZON 2.0 USING NEXTJS, NEXTAUTH, TAILWIND, REDUX, WEBHOOKS, FIRESTORE, STRIPE
 
+- Deployment on Vercel: https://iz-commerce.vercel.app/
+
 ## Redux
 
 - we have store.js and basket there to implement the redux.
@@ -51,9 +53,62 @@
 - import Currency from 'react-currency-formatter';
 - npm package for formatting the currency!
 - We are using the currency formatter to format the currency!
-- <Currency quantity={price} currency='GBP' />   -- this is how we will be using this component!
+- <Currency quantity={price} currency='GBP' /> -- this is how we will be using this component!
+
+## Next Auth!
+
+- yarn add next-auth
+- We are using Next Auth for the authentication purpose that we wanted to login so authenticating using google in our e-commerce website!
+- Now we will be implementing the Auth using prebuild nextAuth that will going to help us to authorize the user and log them in.
+- The best part of using the nextAuth Authentication is that we will be having it done on the serverSide rendered.
+- [...nextauth].js - this will be the file inside api>auth folder in pages.
+- In the above dynamic file we will going to add the logic all the way for the next authentication.
+- This file will be responsible to handle all the authentication in the project.
+- We have providers in the auth, by these we will going to login and authenticate in the application.
+- Created the nextAuth file where we are using the providers that we want to signin with, we will going to configure them!
+- we want that when the user clicks account & lists so he has to be redirected to the signin page we have been provided by the nextauth different providers which we will use to sign in into our application.
+- import { signIn, signOut, useSession } from "next-auth/react"; -- these are very powerful functions that we will going to use inside the header component that when we click the account we must be directed to the signIn page provided to us by next-auth.
+- Simple we have to use the onClick={signIn} function to get on the provided signIn page by the nextauth!
+- after clicking signin with google getting this error mismatch uri : Error 400: redirect_uri_mismatch
+- after resolving the error we are signed in from google but to get the state of the user data we have to do something as well!
+- Inside _app.js file in pages we have to add the following 
+- import { SessionProvider } from "next-auth/react";
+- We will wrap the whole application by <SessionProvider></SessionProvider> with attribute of session  -- what we actually do here is give the access of Authentication to the entire application.
+- onClick={!session ? signIn : signOut} -- If there is session so sign out else sign in
+
+- For clientId and secret of the sources to login!
+- google credential : https://console.cloud.google.com/apis/credentials?pli=1&project=fir-75e60&supportedpurview=project
+- facebook credentials : https://developers.facebook.com/apps/867138024708840/add/
+
+## 400: redirect_uri_mismatch
+
+- we need to add some data inside the configuration to give access from any point to signIn inside the applicaton.
+- Inside of the googlecloud > select project from the dropdown > credentials > Authorised JavaScript origins
+- add uri localhost - 3000
+- and also the redirect uri, where we get the actual error!
+- save the adding things then check again after signing in its working fine!
+
+## Firebase
+
+- yarn add firebase
+- we will setup firebase for the authentication in the application to save the users that are logged in and have the session running to save those users we will going to have them save inside our firestore!
+- Just created a new project on firebase.
+- go to settings > click web icon > to register for a web app
+- copy config file of the new web app you created!
+- created firebase.js file at root and paste the config file there!
+
+### firebase Authentication
+
+- on Firebase console go to authentication > click get started
+- now we will have authentication method by which we wanted to sign in there are multiple options available!
+- like we click on google and click enable there we get the secret and id after saving, all we have to do is to save that inside the .env.local file.
 
 
+### .env.local
+
+- This is the file we are using to setup the environment variables! that we will be using inside our nextjs application
+- we donot need qoutations "" inside our .env file
+- Whenever we update the .env file restart the server!
 
 ### Extra Informtion
 
@@ -83,14 +138,19 @@
   .map((\_, i) => (
   <StarIcon className='h-5' />
   ))} -- creating an array from a number to be mapped!
-- require("@tailwindcss/line-clamp"  -- we have this line clamp inside tailwind config so for long descriptions we will be going to use it all the way! we want to clamp a line after 2 line means it will show ... 
+- require("@tailwindcss/line-clamp" -- we have this line clamp inside tailwind config so for long descriptions we will be going to use it all the way! we want to clamp a line after 2 line means it will show ...
 - focus:outline-none focus:ring-2 -- when focus it ring and outline becomes none as well!
 - active:from-yellow-500 -- It means when clicked it means it is active!
-- grid-flow-row-dense  -->> row dense. Places items by filling each row, and fill any holes in the grid. Demo ❯ column dense. Places items by filling each column, and fill any holes in the grid.
-- grid grid-flow-row-dense md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  ---->>> creating the products into the grid!
-- -mt-52  --> negative margin top will take it to the top instead give margin to it!
+- grid-flow-row-dense -->> row dense. Places items by filling each row, and fill any holes in the grid. Demo ❯ column dense. Places items by filling each column, and fill any holes in the grid.
+- grid grid-flow-row-dense md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ---->>> creating the products into the grid!
+- -mt-52 --> negative margin top will take it to the top instead give margin to it!
 - col-span-full -- gets the whole space of the line!
-- products.slice(0,4)  -- It breaks the array and slice it shows the first four and after that we show the ad.
+- products.slice(0,4) -- It breaks the array and slice it shows the first four and after that we show the ad.
 - col-span-2 -- 2 columns ki jaga lega yh span-2!
 - slice -- cuts the array from the initial value to a particular value and by which it shows the data to that index like products.slice(0,4).map() -- phr uske bd uspe map chala rhe hain slice krne ke bd!
 - by using grid-flow-row-dense -- it uses all the space else if we donot use that so it leaves a big space then!
+- background gray pe white card bhi sahi lgrhe hain acha lgta hai
+- In nextjs we have backend folder there as well bundle that is in pages folder and the folder is called the "api".
+- This api backend folder will be used to fetch the apis of the backend or to authenticate!
+- we donot require "" insdie the .env files
+- Whenever we update the .env file restart the server!
