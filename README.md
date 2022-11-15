@@ -71,9 +71,9 @@
 - Simple we have to use the onClick={signIn} function to get on the provided signIn page by the nextauth!
 - after clicking signin with google getting this error mismatch uri : Error 400: redirect_uri_mismatch
 - after resolving the error we are signed in from google but to get the state of the user data we have to do something as well!
-- Inside _app.js file in pages we have to add the following 
+- Inside \_app.js file in pages we have to add the following
 - import { SessionProvider } from "next-auth/react";
-- We will wrap the whole application by <SessionProvider></SessionProvider> with attribute of session  -- what we actually do here is give the access of Authentication to the entire application.
+- We will wrap the whole application by <SessionProvider></SessionProvider> with attribute of session -- what we actually do here is give the access of Authentication to the entire application.
 - onClick={!session ? signIn : signOut} -- If there is session so sign out else sign in
 
 - For clientId and secret of the sources to login!
@@ -87,6 +87,12 @@
 - add uri localhost - 3000
 - and also the redirect uri, where we get the actual error!
 - save the adding things then check again after signing in its working fine!
+- also getting the error after deployment for the clientid.
+- we were missing something
+
+## getting the error after deployment for the clientid
+
+- Basically we have environment variables we have to upload those environment variables to vercel to avoid the error.
 
 ## Firebase
 
@@ -103,12 +109,46 @@
 - now we will have authentication method by which we wanted to sign in there are multiple options available!
 - like we click on google and click enable there we get the secret and id after saving, all we have to do is to save that inside the .env.local file.
 
-
 ### .env.local
 
 - This is the file we are using to setup the environment variables! that we will be using inside our nextjs application
 - we donot need qoutations "" inside our .env file
 - Whenever we update the .env file restart the server!
+
+## Implementing Routing inside Nextjs
+
+- import { useRouter } from "next/router";
+- onClick={() => router.push("/checkout")}
+- onClick={() => router.push("/")}
+- We will be implementing the routing inside of the nextjs, that when ever we click the logo image it takes us to the home!
+- When we hit the basket it takes us to the checkout page!
+
+## Redux Toolkit
+
+- import { configureStore } from "@reduxjs/toolkit"; -- global store setup
+- import { createSlice } from "@reduxjs/toolkit"; -- we create the slice for the things we wants to change the state for!
+- We will have the redux setup to avoid the prop drilling that we will going to pass props to the parent child > to avoid that we will be using the redux.
+- we have to create actions that will dispatch and somehow things will going to change all the way!
+- what we do is - we dispatch the actions - once action is triggered then we will update the global state.
+- we will use Selecter to get the states out of the redux store that is created;
+- export const selectItems = (state) => state.basket.items; -- like here we go inside the -- state > basket(slice) > items(initial state)
+- we will use dispatc to add action to the basket!
+- dispatch(addToBasket(product));
+- We are adding the products here inside the action from the payload
+- state.items = [...state.items, action.payload];
+- We are removing the products here inside the action from the basket using payload
+-
+- By using the selecter that we created here we will going to have the items for us here all the way!
+- we use useSelector hook provided to us
+- import { useSelector } from "react-redux";
+- const item = useSelector(selectItems);
+- we used the product object to add the item to the items state inside the redux.
+- We are using the id to remove the item from the items array from the redux.
+- const index = state.items.findIndex(
+  (basketItem) => basketItem.id === action.payload.id
+  ); -- we are getting the id and matching it there!
+- Deleting the item from the basket using the id therefore we are using the index, we use splice method to remove that from the basket! 
+- We can also create a selector with a total from the basket as well, therefore we can use the selector of any kind from the redux!  
 
 ### Extra Informtion
 
@@ -154,3 +194,13 @@
 - This api backend folder will be used to fetch the apis of the backend or to authenticate!
 - we donot require "" insdie the .env files
 - Whenever we update the .env file restart the server!
+- text-3xl border-b pb-4 -- To add border bottom
+- grid grid-cols-5 -- created the grid with 5 coloumns but the structure for us is like this that we want first and last coloum to take 1 1 space while the middle one takes 3 coloumn spaces therefore we will say for the middle "col-span-3" -- it means it takes 3 coloumns space.
+- col-span-3 -- It takes three coloumn space
+- line-clamp-3 -- iska mtlb hai 3 line ke bd ... dot ajaeinge
+- my-auto -- centers in the y axis by this
+- justify-self-end -- in the given space use that particularly
+- whitespace-nowrap  -- It will not have white spaces extra
+- Here we are using the reduce functon to create the total price inside the reducer function.
+
+

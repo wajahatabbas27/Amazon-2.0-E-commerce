@@ -5,7 +5,10 @@ import {
   SearchIcon,
   ShoppingCartIcon,
 } from "@heroicons/react/outline";
+import { useRouter } from "next/router";
 import { signIn, signOut, useSession } from "next-auth/react"; // This is what we will be using to handle signin functionality
+import { useSelector } from "react-redux";
+import { selectItems } from "../slices/basketSlice";
 
 //===================================================================================================================================
 // Here inisde the header when we click the accounts & list we have to be redirected to the signIn page from different providers!
@@ -15,6 +18,12 @@ const Header = () => {
   // We will use the useSession here to get the data from the login user
   const { data: session } = useSession();
 
+  //to route we will use useRouter
+  const router = useRouter();
+
+  // selecter to get the state from the redux store
+  const item = useSelector(selectItems);
+
   return (
     <header>
       {/*Top Nav*/}
@@ -22,6 +31,7 @@ const Header = () => {
         {/* Logo */}
         <div className='mt-2 items-center flex-grow sm:flex-grow-0'>
           <Image
+            onClick={() => router.push("/")}
             src='https://links.papareact.com/f90'
             width={150}
             height={40}
@@ -53,9 +63,13 @@ const Header = () => {
             <p className='font-extrabold md:text-sm'>& orders</p>
           </div>
           {/* basket - cart */}
-          <div className='relative link flex items-center'>
+          <div
+            onClick={() => router.push("/checkout")}
+            className='relative link flex items-center'
+          >
             <span className='absolute top-0 right-0 md:right-10 h-4 w-4 bg-yellow-400 text-center rounded-full text-black font-bold'>
-              0
+              {/* calling directly from the redux when we actually update the state */}
+              {item.length}
             </span>
             <ShoppingCartIcon className='h-10' />
             <p className='hidden md:inline font-extrabold md:text-sm mt-2'>
