@@ -93,6 +93,10 @@
 ## getting the error after deployment for the clientid
 
 - Basically we have environment variables we have to upload those environment variables to vercel to avoid the error.
+- You need to add the secret NEXTAUTH_SECRET
+  Can get one by open up terminal and do "openssl rand -base64 32"
+  NEXTAUTH_SECRET="token_generated"
+  
 
 ## Firebase
 
@@ -147,8 +151,8 @@
 - const index = state.items.findIndex(
   (basketItem) => basketItem.id === action.payload.id
   ); -- we are getting the id and matching it there!
-- Deleting the item from the basket using the id therefore we are using the index, we use splice method to remove that from the basket! 
-- We can also create a selector with a total from the basket as well, therefore we can use the selector of any kind from the redux!  
+- Deleting the item from the basket using the id therefore we are using the index, we use splice method to remove that from the basket!
+- We can also create a selector with a total from the basket as well, therefore we can use the selector of any kind from the redux!
 
 ### Extra Informtion
 
@@ -200,7 +204,5 @@
 - line-clamp-3 -- iska mtlb hai 3 line ke bd ... dot ajaeinge
 - my-auto -- centers in the y axis by this
 - justify-self-end -- in the given space use that particularly
-- whitespace-nowrap  -- It will not have white spaces extra
+- whitespace-nowrap -- It will not have white spaces extra
 - Here we are using the reduce functon to create the total price inside the reducer function.
-
-
