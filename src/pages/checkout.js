@@ -11,7 +11,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 
 // here we will be adding the public key provided by stripe so we can connect wit te stripe!
-const stripePromise = loadStripe(process.env.stripe_public_key);
+const stripePromise = loadStripe(process.env.STRIPE_PUBLIC_KEY);
 
 const Checkout = () => {
   //Getting the state of the item from the basket slice
