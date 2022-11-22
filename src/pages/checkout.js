@@ -7,6 +7,11 @@ import { selectItems, selectTotal } from "../slices/basketSlice";
 import CheckoutProduct from "../components/CheckoutProduct";
 import Currency from "react-currency-formatter";
 import { useSession } from "next-auth/react";
+import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
+
+// here we will be adding the public key provided by stripe so we can connect wit te stripe!
+const stripePromise = loadStripe(process.env.stripe_public_key);
 
 const Checkout = () => {
   //Getting the state of the item from the basket slice
@@ -16,6 +21,30 @@ const Checkout = () => {
   const total = useSelector(selectTotal);
 
   const { data: session } = useSession();
+
+  // create Checkout Session function will be triggered when we click to proceed to checkout
+  // Implementing stripe functionality
+  const createCheckoutSession = async () => {
+    console.log("Checkout");
+    // loading stripe
+    const stripe = await stripePromise;
+
+    // Call the backend to create a ceckout session
+    // Creating POST request with Axios.
+    // sending the selected items inside the post request with the email of the user
+    const checkoutSession = await axios.post("/api/create-checkout-session", {
+      items: items,
+      email: session.user.email,
+    });
+
+    // Redirect user/customer to Stripe Checkout
+    const result = await stripe.redirectToCheckout({
+      sessionId: checkoutSession.data.id,
+    });
+
+    // validating the result if there is error
+    if (result.error) alert(result.error.message);
+  };
 
   return (
     <div className='bg-gray-100'>
@@ -59,6 +88,8 @@ const Checkout = () => {
                   !session &&
                   "from-gray-300 to-gray-500 border-gray-200 text-gray-300 cursor-not-allowed"
                 }`}
+                role='link'
+                onClick={createCheckoutSession}
                 disabled={!session}
               >
                 {!session ? "Sign In to Checkout" : "Proceed to Checkout"}
