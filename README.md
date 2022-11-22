@@ -79,6 +79,7 @@
 - For clientId and secret of the sources to login!
 - google credential : https://console.cloud.google.com/apis/credentials?pli=1&project=fir-75e60&supportedpurview=project
 - facebook credentials : https://developers.facebook.com/apps/867138024708840/add/
+- updated the oAuth uris inside the developer settings in google and facebook to avoid errors!
 
 ## 400: redirect_uri_mismatch
 
@@ -94,9 +95,11 @@
 
 - Basically we have environment variables we have to upload those environment variables to vercel to avoid the error.
 - You need to add the secret NEXTAUTH_SECRET
-  Can get one by open up terminal and do "openssl rand -base64 32"
-  NEXTAUTH_SECRET="token_generated"
-  
+- Can get one by open up terminal and do "openssl rand -base64 32"
+- NEXTAUTH_SECRET="token_generated"
+
+- oAuth settings must be updated all the way inside the google and facebook developer settings!
+- to have the smooth login structure all the way
 
 ## Firebase
 
@@ -154,10 +157,38 @@
 - Deleting the item from the basket using the id therefore we are using the index, we use splice method to remove that from the basket!
 - We can also create a selector with a total from the basket as well, therefore we can use the selector of any kind from the redux!
 
+
+## Stripe Payment  --  https://stripe.com/docs/payments/checkout/how-checkout-works
+
+- yarn add stripe
+- yarn add @stripe/stripe-js
+- When we click the button proceed to checkout, we will be redirected to the payment gateway therefore payment will be made.
+- Therefore we will be using Stripe session to create the payment and this stuff!
+- The user comes to our website they pay on stripe and they comes back therefore we are using stripe here for the card payments!
+- This is how stripe actually works:
+
+![My Image](assets/stripe.png)
+
+- This is the complete implementation of the stripe this is how it actually works the whole process!
+- Stripe payments are taken using the card stuff that basically receives your payment on your behalf and u collect your money from the stripe!
+- stripe is used on serverside while stripe-js is used on the client side .
+- It works in such a manner we will going to send the items inside the basket to the stripe and this way it will going to create the stripe session.
+- import { loadStripe } from "@stripe/stripe-js";  - for the loaddStripe stripe public access.
+- We need to create the free stripe store so we will get the keys to add to our code to access the account.
+- We have called the stripe will be needing the backend therefore we require the file inside api folder name create-checkout-session.js where we will handle all the backend inside the nextjs folder.
+- We will be using the axios to send the data from the stripe of the network calls.
+- We are pushing the information inside the checkout session which is basically the api using the axios and we will be sending the data over there.
+- On click to the proceed to checkout we created the function stripe Checkout that basically calls the backend api using axios and there we have backend package stripe and the private key therefore we will get the data from the post request and we will use that data to create the session using that data on the backend.
+- To send the data to stripe we need to send the data in a proper format that will be accepted by the stripe therefore it is required that we must send the data in aparticular format to stripe!
+- We need to format our data before sending it to stripe because stripe accepts only a particular formated data.
+- Moreover in stripe it is required that we must pass the secondary currencies like penny for dollars. sub currency
+- In the backend api data what we have done is transform the data according to the stripe format then we will be creating the session on the backend and will be providing the redirect link in case of the payment is successful redirect to the particular page.
+- We will have the success url and the cancel url in case of these things get successfull we will be redirected to that particular page else to a differend page if it is successfull.
+
+
 ### Extra Informtion
 
 - We have tailwindcs and redux already activated in this starter templete all that is require we will be going to add the features and functionalities inside of it!
-
 - Applying emmet in settings, if we wanted to have the shortcuts over here!
 - Auto Rename Tag - extention to automatically rename the tags!
 - Image tag iptimize the image and serves them in the most optimize way!
@@ -206,3 +237,9 @@
 - justify-self-end -- in the given space use that particularly
 - whitespace-nowrap -- It will not have white spaces extra
 - Here we are using the reduce functon to create the total price inside the reducer function.
+- role='link'  -- We add this attribute inside the checkout button there we are linking the page to stripe!
+- Anything underneath the api folder is a backend code.
+- We are using axios for the network call to send the data
+
+
+
