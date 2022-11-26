@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { signIn, signOut, useSession } from "next-auth/react"; // This is what we will be using to handle signin functionality
 import { useSelector } from "react-redux";
 import { selectItems } from "../slices/basketSlice";
+// import izLogo from "../../assets/iz.png"
 
 //===================================================================================================================================
 // Here inisde the header when we click the accounts & list we have to be redirected to the signIn page from different providers!

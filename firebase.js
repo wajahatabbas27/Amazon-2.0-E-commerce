@@ -1,6 +1,7 @@
-// import firebase from "firebase/compat/app";
-// import "firebase/compat/firestore";
-import firebase from "firebase";
+// import firebase from "firebase";
+// This is the technique we will going to call the firebase
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -12,3 +13,11 @@ const firebaseConfig = {
   appId: "1:700116461306:web:c53b9ac46463615cde4b43",
   measurementId: "G-NY9WGN7KNC",
 };
+
+const app = !firebase.apps.length
+  ? firebase.initializeApp(firebaseConfig)
+  : firebase.app();
+
+const db = app.firestore();
+
+export default db;
