@@ -3,9 +3,12 @@ import Header from "../components/Header";
 import { getSession, useSession } from "next-auth/react";
 import db from "../../firebase";
 import moment from "moment/moment";
+import Order from "../components/Order";
 
 const Orders = ({ orders }) => {
   const { data: session } = useSession();
+
+  console.log(orders);
 
   return (
     <div>
@@ -16,10 +19,26 @@ const Orders = ({ orders }) => {
           Your Orders
         </h1>
         {session ? (
-          <h2>x orders</h2>
+          <h2>{orders.length} orders</h2>
         ) : (
           <h2>Please Sign-In to see your order</h2>
         )}
+
+        <div className='mt-5 space-y-4'>
+          {orders.map(
+            ({ id, amount, amountShipping, items, timestamp, images }) => (
+              <Order
+                key={id}
+                id={id}
+                amount={amount}
+                amountShipping={amountShipping}
+                items={items}
+                timestamp={timestamp}
+                images={images}
+              />
+            )
+          )}
+        </div>
       </main>
     </div>
   );
@@ -31,7 +50,7 @@ export async function getServerSideProps(context) {
   const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
   //   Get the users logged in credentials - using getSession on the server side
-  const session = getSession(context);
+  const session = await getSession(context);
 
   if (!session) {
     return {
@@ -64,4 +83,9 @@ export async function getServerSideProps(context) {
       ).data,
     }))
   );
+  return {
+    props: {
+      orders,
+    },
+  };
 }

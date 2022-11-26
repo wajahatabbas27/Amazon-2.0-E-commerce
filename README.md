@@ -300,6 +300,10 @@
 - In api folder inside nextjs we have all the backend code functionality therefore the packages used inside the api folder are of the nodejs like we are using firebase-admin, It has all the accessibility for the firebase.
 - orderBy - orderBy is the firebase function used for the timestamp.
 - yarn add moment   -- library for the moment of te epoc date structure
+- flex-1  -  to take the majority of the room.
+- truncate - if it is bigger start cut it off
+- overflow-x-auto  -- it means that when items start to become more so scroll automatic on x axis
+- We fetch things on the server to avoid te glitch! 
 
 
 
