@@ -10,10 +10,8 @@ import { useSession } from "next-auth/react";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 
-// here we will be adding the public key provided by stripe so we can connect wit te stripe!
-const stripePromise = loadStripe(
-  "pk_test_51M6qddEKDELx1XBAsMh2SSjyqo1vGOr2Cvj6YGrqa9iiYGxq1PCY0WExSfrlnxSyDdZeT3puyHlusihq1jvKH75G00YDTgrT7U"
-);
+// here we will be adding the public key provided by stripe so we can connect with the stripe!
+const stripePromise = loadStripe(process.env.stripe_public_key);
 
 const Checkout = () => {
   //Getting the state of the item from the basket slice
@@ -27,24 +25,27 @@ const Checkout = () => {
   // create Checkout Session function will be triggered when we click to proceed to checkout
   // Implementing stripe functionality
   const createCheckoutSession = async () => {
-    console.log("Checkout");
     // loading stripe
     const stripe = await stripePromise;
 
     // Call the backend to create a ceckout session
     // Creating POST request with Axios.
     // sending the selected items inside the post request with the email of the user
-    const checkoutSession = await axios.post("/api/create-checkout-session", {
+    const checkoutSession = await axios.post("/api/checkout_sessions", {
       items: items,
       email: session.user.email,
     });
 
     // Redirect user/customer to Stripe Checkout
+    // It redirects to the checkout page after the payemnt process
     const result = await stripe.redirectToCheckout({
       sessionId: checkoutSession.data.id,
     });
 
+    //========================================================================================
+    // handling for the res-500  server error!
     // validating the result if there is error
+    //========================================================================================
     if (result.error) alert(result.error.message);
   };
 
@@ -86,10 +87,12 @@ const Checkout = () => {
                 </span>
               </h2>
               <button
-                className={`button mt-2 ${
+                className={`button mt-2 
+                ${
                   !session &&
                   "from-gray-300 to-gray-500 border-gray-200 text-gray-300 cursor-not-allowed"
-                }`}
+                }
+                  `}
                 role='link'
                 onClick={createCheckoutSession}
                 disabled={!session}

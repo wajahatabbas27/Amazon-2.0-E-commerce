@@ -157,11 +157,10 @@
 - Deleting the item from the basket using the id therefore we are using the index, we use splice method to remove that from the basket!
 - We can also create a selector with a total from the basket as well, therefore we can use the selector of any kind from the redux!
 
+## Stripe Payment -- https://stripe.com/docs/payments/checkout/how-checkout-works
 
-## Stripe Payment  --  https://stripe.com/docs/payments/checkout/how-checkout-works
-
-- yarn add stripe
-- yarn add @stripe/stripe-js
+- yarn add stripe --- for backend apis package
+- yarn add @stripe/stripe-js --- for client side package we are using it to load in checkput page
 - When we click the button proceed to checkout, we will be redirected to the payment gateway therefore payment will be made.
 - Therefore we will be using Stripe session to create the payment and this stuff!
 - The user comes to our website they pay on stripe and they comes back therefore we are using stripe here for the card payments!
@@ -173,7 +172,7 @@
 - Stripe payments are taken using the card stuff that basically receives your payment on your behalf and u collect your money from the stripe!
 - stripe is used on serverside while stripe-js is used on the client side .
 - It works in such a manner we will going to send the items inside the basket to the stripe and this way it will going to create the stripe session.
-- import { loadStripe } from "@stripe/stripe-js";  - for the loaddStripe stripe public access.
+- import { loadStripe } from "@stripe/stripe-js"; - for the loaddStripe stripe public access.
 - We need to create the free stripe store so we will get the keys to add to our code to access the account.
 - We have called the stripe will be needing the backend therefore we require the file inside api folder name create-checkout-session.js where we will handle all the backend inside the nextjs folder.
 - We will be using the axios to send the data from the stripe of the network calls.
@@ -184,6 +183,61 @@
 - Moreover in stripe it is required that we must pass the secondary currencies like penny for dollars. sub currency
 - In the backend api data what we have done is transform the data according to the stripe format then we will be creating the session on the backend and will be providing the redirect link in case of the payment is successful redirect to the particular page.
 - We will have the success url and the cancel url in case of these things get successfull we will be redirected to that particular page else to a differend page if it is successfull.
+- We give all the information to stripe and it actually takes us forward or backward according if we pass or fail.
+
+### Stripe Api reference bugs for session code
+
+- https://stripe.com/docs/payments/checkout/migrating-prices?integration=server
+- https://stripe.com/docs/checkout/quickstart
+- https://dashboard.stripe.com/test/logs?method[0]=post&method[1]=delete&direction[0]=connect_in&direction[1]=self
+- We can see the logs as well in the console of the developer environment.
+
+- If we redirected to the page of the stripe session it will be our success cause we pass right paarmeters there inside the parenthesis all the way therefore we have done all this work by reading the docs.
+
+- To Test the card payment developer test code is
+- 4242 4242 4242 4242
+- 04 / 24 - 424
+
+## WebHooks
+
+- when we click to the proceed to checkout page it redirects us to the stripe session that was created.
+- In the stripe session we add card details therefore over there.
+- If the payment was successful it takes us to the success page else it takes us back to the checkout page.
+- So here the WEB-HOOK that we require is we want that when we move to the stripe session, we must add all the products to the database firebase, If the customer donot pay the payment therefore we he should return the products must be there all the way in his basket and the products are coming to his basket from the database.
+- This will going to allow the products to show when the customer returns on the website until he/she removes it from the cart.
+
+- ===============================================================================================================================
+
+- Till now there is nothing listening on the webhook so we want to fire an event to the webhook that should listen from the session page and we will be applying the logic over there.
+- Stripe works with the webhook and to save our data into the database it is required for us to create a webhook, and there we will going to put the logic in and that will save our data in the firestore.
+
+### api/webhook.js  -- https://stripe.com/docs/webhooks
+
+- created the file inside the api folder, as webhook is actually the backend structure we are just combining this using the stripe api listener.
+- yarn add micro           --  to generate the certificate 
+- yarn add firebase-admin        --  to access the firebase from nodejs backend
+
+- we will go firebase console > setings >service account > there we will download the file
+- we will have the permission.josn file on the root which basically has the service accounts credentials, which we will going to use inside webhook.js file inside api folder!  
+- Using the app if there on the firebase console else Initializing the app using the service account file.
+
+
+## Stripe - cli to implement webhook. -- https://stripe.com/docs/stripe-cli
+
+- From the stripe session we want an event to fire and go to the webhook and there, we will handle the logic to save data inside firestore.
+- Therefore to do this we require to work with STRIPE-CLI.
+- So we will going to install it - https://stripe.com/docs/stripe-cli
+- Install the stripe cli and then login
+- Now we will create a webhook using the command -- stripe listen --forward-to localhost:3000/api/webhook
+- after running the command we will have a secret but the pat what we have api/webhook that is not created till now.
+- This secret will change once the terminal session finishes.
+- We will paste this secret inside the .env file in STRIPE_SIGNING_SECRET.
+
+
+## creating success page
+
+- Here we will be redirected if the stripe payment is succesfull all the way.
+
 
 
 ### Extra Informtion
@@ -237,9 +291,20 @@
 - justify-self-end -- in the given space use that particularly
 - whitespace-nowrap -- It will not have white spaces extra
 - Here we are using the reduce functon to create the total price inside the reducer function.
-- role='link'  -- We add this attribute inside the checkout button there we are linking the page to stripe!
+- role='link' -- We add this attribute inside the checkout button there we are linking the page to stripe!
 - Anything underneath the api folder is a backend code.
 - We are using axios for the network call to send the data
+- implecet return mtlb circle braces ke andar curly braces hnge to ise khte hain implecet return.
+- Whenever we update te .env file we should restart the local server.
+- If req.method==="POST"  --- we check POST, GET request in nextjs like this.
+- In api folder inside nextjs we have all the backend code functionality therefore the packages used inside the api folder are of the nodejs like we are using firebase-admin, It has all the accessibility for the firebase.
+- orderBy - orderBy is the firebase function used for the timestamp.
+- yarn add moment   -- library for the moment of te epoc date structure
+
+
+
+
+
 
 
 
