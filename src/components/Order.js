@@ -1,7 +1,6 @@
 import React from "react";
 import Currency from "react-currency-formatter";
 import moment from "moment";
-import { moment } from "moment/moment";
 
 const Order = ({ id, amount, amountShipping, items, timestamp, images }) => {
   return (
