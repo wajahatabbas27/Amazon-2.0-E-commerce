@@ -3,24 +3,28 @@ import Banner from "../components/Banner";
 import Header from "../components/Header";
 import ProductFeed from "../components/ProductFeed";
 import { getSession } from "next-auth/react";
+import { useSelector } from "react-redux";
+import { searchResults } from "../slices/basketSlice";
+import Search from "../components/Search";
 
 //=====================================================================
 // Props here is a server side rendered return below which we run!
 // We are destructuring it according to our requirements
 //=====================================================================
 export default function Home({ products }) {
+  const Searcher = useSelector(searchResults);
   return (
     <div className='bg-gray-100'>
       <Head>
         <title>Amazon 2.0</title>
       </Head>
 
-      <Header />
+      <Header products={products} />
       <main className='max-w-screen-2xl mx-auto'>
         {/* Scrollable Banner */}
         <Banner />
         {/* Products */}
-        <ProductFeed products={products} />
+        {Searcher.length > 0 ? <Search /> : <ProductFeed products={products} />}
       </main>
     </div>
   );

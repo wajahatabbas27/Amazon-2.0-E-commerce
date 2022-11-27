@@ -210,6 +210,11 @@
 
 - Till now there is nothing listening on the webhook so we want to fire an event to the webhook that should listen from the session page and we will be applying the logic over there.
 - Stripe works with the webhook and to save our data into the database it is required for us to create a webhook, and there we will going to put the logic in and that will save our data in the firestore.
+- We have to add webhook url endpoint in the console as well.
+- like    ---  url/api/webhook
+
+- webhooks are provided by the stripe payment
+
 
 ### api/webhook.js  -- https://stripe.com/docs/webhooks
 
