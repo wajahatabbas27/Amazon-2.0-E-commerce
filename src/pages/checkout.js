@@ -47,6 +47,11 @@ const Checkout = () => {
     // validating the result if there is error
     //========================================================================================
     if (result.error) alert(result.error.message);
+
+    // save data here inside the firebase
+    // design the database with the email and then products that are buyed!
+
+    
   };
 
   return (

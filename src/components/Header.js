@@ -40,9 +40,8 @@ const Header = ({ products }) => {
     if (search) {
       dispatch(addToSearching(search));
       dispatch(searchResult(products));
+      setSearch("");
     }
-    console.log("search ", search);
-    setSearch("");
   };
 
   return (
@@ -72,6 +71,7 @@ const Header = ({ products }) => {
           <input
             type='text'
             className='p-2 h-full w-6 flex-grow rounded-l-md flex-shrink px-4 focus:outline-none'
+            value={search}
             onChange={(e) => setSearch(e.target.value.toLowerCase())}
           />
           <SearchIcon className='h-12 p-4' onClick={handleSearch} />

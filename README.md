@@ -309,7 +309,7 @@
 - truncate - if it is bigger start cut it off
 - overflow-x-auto  -- it means that when items start to become more so scroll automatic on x axis
 - We fetch things on the server to avoid te glitch! 
-
+- To make the input field empty, It is required to have the "value" attribute with it and make the value the hook which we created for the onChange of the input field and creating it back to the empty string by setting the value of the hook to "" - empty string,  --- this will going to make the value empty once it is done.
 
 
 
