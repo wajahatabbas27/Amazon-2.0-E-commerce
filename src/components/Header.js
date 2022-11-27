@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import {
   MenuIcon,
@@ -7,15 +7,19 @@ import {
 } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
 import { signIn, signOut, useSession } from "next-auth/react"; // This is what we will be using to handle signin functionality
-import { useSelector } from "react-redux";
-import { selectItems } from "../slices/basketSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addToSearching, searchResult, selectItems } from "../slices/basketSlice";
+
 // import izLogo from "../../assets/iz.png"
 
 //===================================================================================================================================
 // Here inisde the header when we click the accounts & list we have to be redirected to the signIn page from different providers!
 //===================================================================================================================================
 
-const Header = () => {
+const Header = ({ products }) => {
+  const dispatch = useDispatch();
+
+  const [search, setSearch] = useState("");
   // We will use the useSession here to get the data from the login user
   const { data: session } = useSession();
 
@@ -23,7 +27,17 @@ const Header = () => {
   const router = useRouter();
 
   // selecter to get the state from the redux store
-  const item = useSelector(selectItems);
+  let item = useSelector(selectItems);
+
+  // Search Functionality Function
+  const handleSearch = () => {
+    if (search) { 
+      dispatch(addToSearching(search));
+      dispatch(searchResult(products));
+    }
+    console.log("search ",search);
+    setSearch("")
+  };
 
   return (
     <header>
@@ -45,8 +59,9 @@ const Header = () => {
           <input
             type='text'
             className='p-2 h-full w-6 flex-grow rounded-l-md flex-shrink px-4 focus:outline-none'
+            onChange={(e) => setSearch(e.target.value.toLowerCase())}
           />
-          <SearchIcon className='h-12 p-4' />
+          <SearchIcon className='h-12 p-4' onClick={handleSearch} />
         </div>
         {/* Hero Icons Basket */}
         <div className='text-white flex items-center text-xs space-x-6 mx-6 whitespace-nowrap'>
