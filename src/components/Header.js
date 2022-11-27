@@ -8,7 +8,12 @@ import {
 import { useRouter } from "next/router";
 import { signIn, signOut, useSession } from "next-auth/react"; // This is what we will be using to handle signin functionality
 import { useDispatch, useSelector } from "react-redux";
-import { addToSearching, searchResult, selectItems } from "../slices/basketSlice";
+import {
+  addToSearching,
+  searchResult,
+  searchResultToEmpty,
+  selectItems,
+} from "../slices/basketSlice";
 
 // import izLogo from "../../assets/iz.png"
 
@@ -30,13 +35,14 @@ const Header = ({ products }) => {
   let item = useSelector(selectItems);
 
   // Search Functionality Function
-  const handleSearch = () => {
-    if (search) { 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (search) {
       dispatch(addToSearching(search));
       dispatch(searchResult(products));
     }
-    console.log("search ",search);
-    setSearch("")
+    console.log("search ", search);
+    setSearch("");
   };
 
   return (
@@ -46,7 +52,11 @@ const Header = ({ products }) => {
         {/* Logo */}
         <div className='mt-2 items-center flex-grow sm:flex-grow-0'>
           <Image
-            onClick={() => router.push("/")}
+            onClick={() => {
+              router.push("/");
+              dispatch(searchResultToEmpty());
+              setSearch("");
+            }}
             src='https://links.papareact.com/f90'
             width={150}
             height={40}
@@ -55,14 +65,17 @@ const Header = ({ products }) => {
           />
         </div>
         {/* Custom search Bar*/}
-        <div className=' items-center hidden sm:flex h-10 rounded-md flex-grow cursor-pointer bg-yellow-400 hover:bg-yellow-500 '>
+        <form
+          onSubmit={handleSearch}
+          className=' items-center hidden sm:flex h-10 rounded-md flex-grow cursor-pointer bg-yellow-400 hover:bg-yellow-500 '
+        >
           <input
             type='text'
             className='p-2 h-full w-6 flex-grow rounded-l-md flex-shrink px-4 focus:outline-none'
             onChange={(e) => setSearch(e.target.value.toLowerCase())}
           />
           <SearchIcon className='h-12 p-4' onClick={handleSearch} />
-        </div>
+        </form>
         {/* Hero Icons Basket */}
         <div className='text-white flex items-center text-xs space-x-6 mx-6 whitespace-nowrap'>
           {/* name */}
