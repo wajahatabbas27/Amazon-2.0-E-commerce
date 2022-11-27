@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  search: "",
   items: [],
+  searchResultArray: [],
 };
 
 export const basketSlice = createSlice({
@@ -33,11 +35,27 @@ export const basketSlice = createSlice({
       }
       state.items = newBasket;
     },
+    addToSearching: (state, action) => {
+      state.search = action.payload;
+    },
+    searchResult: (state, action) => {
+      const products = action.payload;
+      const search = state.search;
+      const result = products.filter(
+        (product) =>
+          product.title.toLowerCase().includes(search) ||
+          product.description.toLowerCase().includes(search) ||
+          product.category.toLowerCase().includes(search)
+      );
+      state.searchResultArray = result;
+      console.log("result =", state.searchResultArray);
+    },
   },
 });
 
 // we export them so we can use these actions throughout the application
-export const { addToBasket, removeFromBasket } = basketSlice.actions;
+export const { addToBasket, removeFromBasket, addToSearching, searchResult } =
+  basketSlice.actions;
 
 //selector is used to get the states like here from the basket we will going to use the selecter
 // Selectors - This is how we pull information from the Global store slice
@@ -47,5 +65,10 @@ export const selectItems = (state) => state.basket.items;
 // we will calculate the total from reduce es6 function
 export const selectTotal = (state) =>
   state.basket.items.reduce((total, item) => total + item.price, 0);
+
+// search
+export const search = (state) => state.basket.search;
+
+export const searchResults = (state) => state.basket.searchResultArray;
 
 export default basketSlice.reducer;
