@@ -9,6 +9,7 @@ import Currency from "react-currency-formatter";
 import { useSession } from "next-auth/react";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
+import db from "../../firebase";
 
 // here we will be adding the public key provided by stripe so we can connect with the stripe!
 const stripePromise = loadStripe(process.env.stripe_public_key);
@@ -47,6 +48,19 @@ const Checkout = () => {
     // validating the result if there is error
     //========================================================================================
     if (result.error) alert(result.error.message);
+
+    // save data here inside the firebase
+    // design the database with the email and then products that are buyed!
+    db.firestore()
+      .collection("users")
+      .doc(session.user.email)
+      .collection("orders")
+      .doc(session.id)   // yhn pe login user ki id aegi hmare pass 
+      .set({
+        amount: session.price_data.unit_amount / 100,
+        images: JSON.parse(session.metadata.images),
+        timestamp: admin.firestore.FieldValue.serverTimestamp(),
+      });
   };
 
   return (

@@ -50,12 +50,20 @@ export const basketSlice = createSlice({
       state.searchResultArray = result;
       console.log("result =", state.searchResultArray);
     },
+    searchResultToEmpty: (state, action) => {
+      state.searchResultArray = [];
+    },
   },
 });
 
 // we export them so we can use these actions throughout the application
-export const { addToBasket, removeFromBasket, addToSearching, searchResult } =
-  basketSlice.actions;
+export const {
+  addToBasket,
+  removeFromBasket,
+  addToSearching,
+  searchResult,
+  searchResultToEmpty,
+} = basketSlice.actions;
 
 //selector is used to get the states like here from the basket we will going to use the selecter
 // Selectors - This is how we pull information from the Global store slice
